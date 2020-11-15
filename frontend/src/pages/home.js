@@ -2,8 +2,8 @@ import React, { Fragment, useEffect } from 'react'
 import Navbar from '../homeComponents/Navbar'
 import MainBody from '../homeComponents/Main/MainBody'
 import Footer from '../homeComponents/Footer'
-import { animated, useTransition } from 'react-spring'
 import Background from '../homeComponents/Background'
+import { animated, useTransition } from 'react-spring'
 import axios from 'axios'
 import {
     authenticateUser,

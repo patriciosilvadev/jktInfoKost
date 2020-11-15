@@ -265,7 +265,7 @@ function Index({
                                         <Heading lightText={lightText}>{headLine}</Heading>
                                         <Subtitle darkText={darkText}>{description}</Subtitle>
                                         <BtnWrap>
-                                            <CustomButton to="/login">{buttonLabel}</CustomButton>
+                                            <CustomButton to="/register">{buttonLabel}</CustomButton>
                                         </BtnWrap>
                                     </TextWrapper>
                                 </FirstColumn>
