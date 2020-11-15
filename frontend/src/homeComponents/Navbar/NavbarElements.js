@@ -215,12 +215,31 @@ export const NavBtnLinkDaftar = styled(Link)`
     }
 `
 
+/*---------------------------------------------------END OF LOWER NAV---------------------------------------------------*/
+
+
+/*---------------------------------------------------MOBILE NAV---------------------------------------------------*/
+
 export const DrawerWrapper = styled.div`
     display: none;
 
     @media screen and (max-width: 1260px){
         display: contents;
     }
+`
+
+export const AvatarMobileWrapper = styled.nav`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 16px;
+`
+
+export const DisplayNameMobile = styled.p`
+    font-size: 18px;
+    font-weight: 600;
+    margin: 16px;
 `
 
 export const NavBtnMobile = styled.nav`
@@ -282,4 +301,4 @@ export const NavBtnLinkMobileOutlined = styled(Link)`
     }
 `
 
-/*---------------------------------------------------END OF LOWER NAV---------------------------------------------------*/
+/*---------------------------------------------------END OF MOBILE NAV---------------------------------------------------*/

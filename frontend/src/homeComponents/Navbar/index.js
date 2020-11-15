@@ -21,7 +21,9 @@ import {
     NavBtnMobile,
     NavBtnLinkMobile,
     NavBtnLinkMobileOutlined,
-    DrawerWrapper
+    DrawerWrapper,
+    AvatarMobileWrapper,
+    DisplayNameMobile
 } from './NavbarElements';
 import {
     switchPage,
@@ -131,7 +133,7 @@ const Navbar = () => {
             if (isPemilik) {
                 return (
                     <NavBtnMobile>
-                        <NavBtnLinkMobile onClick={() => handleLogout()}>Dashboard</NavBtnLinkMobile>
+                        <NavBtnLinkMobile to="/dashboard">Dashboard</NavBtnLinkMobile>
                         <NavBtnLinkMobile onClick={() => handleLogout()}>Keluar</NavBtnLinkMobile>
                     </NavBtnMobile>
                 )
@@ -140,7 +142,7 @@ const Navbar = () => {
                 return (
                     <NavBtnMobile>
                         <NavBtnLinkMobileOutlined onClick={() => handleLogout()}><SpanMasuk>Daftar sebagai pemilik kost</SpanMasuk></NavBtnLinkMobileOutlined>
-                        <NavBtnLinkMobile onClick={() => handleLogout()}>Dashboard</NavBtnLinkMobile>
+                        <NavBtnLinkMobile to="/dashboard">Dashboard</NavBtnLinkMobile>
                         <NavBtnLinkMobile onClick={() => handleLogout()}>Keluar</NavBtnLinkMobile>
                     </NavBtnMobile>
                 )
@@ -162,7 +164,7 @@ const Navbar = () => {
             if (isPemilik) {
                 return (
                     <NavBtn>
-                        <NavBtnLinkDaftar onClick={() => handleLogout()}>Dashboard</NavBtnLinkDaftar>
+                        <NavBtnLinkDaftar to="/dashboard">Dashboard</NavBtnLinkDaftar>
                         <NavBtnLinkDaftar onClick={() => handleLogout()}>Keluar</NavBtnLinkDaftar>
                     </NavBtn>
                 )
@@ -171,7 +173,7 @@ const Navbar = () => {
                 return (
                     <NavBtn>
                         <NavBtnLinkMasuk onClick={() => handleLogout()}><SpanMasuk>Daftar sebagai pemilik kost</SpanMasuk></NavBtnLinkMasuk>
-                        <NavBtnLinkDaftar onClick={() => handleLogout()}>Dashboard</NavBtnLinkDaftar>
+                        <NavBtnLinkDaftar to="/dashboard">Dashboard</NavBtnLinkDaftar>
                         <NavBtnLinkDaftar onClick={() => handleLogout()}>Keluar</NavBtnLinkDaftar>
                     </NavBtn>
                 )
@@ -197,6 +199,13 @@ const Navbar = () => {
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
         >
+            <AvatarMobileWrapper>
+                <Avatar size={100} round={true} name={user.displayName} />
+                <DisplayNameMobile>
+                    {user.displayName}
+                </DisplayNameMobile>
+            </AvatarMobileWrapper>
+            <Divider />
             <List>
                 {['Tanah Dijual', 'Sewaan', 'Hubungi Kami', 'Syarat dan Ketentuan'].map((text, index) => (
                     <ListItem button key={text}>
