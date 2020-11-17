@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const masterAccessSchema = new Schema({
-    AccessId: {
+const masterRoleAccessSchema = new Schema({
+    RoleId: {
         type: String,
         required: true,
         unique: true
     },
-    AccessName: {
+    AccessId: {
         type: String,
         required: true,
         unique: true
@@ -20,6 +20,6 @@ const masterAccessSchema = new Schema({
     timestamps: true
 });
 
-const MasterAccess = mongoose.model('dbMasterAccess', masterAccessSchema);
+const MasterRoleAccess = mongoose.model('dbMasterRoleAccess', masterRoleAccessSchema);
 
-module.exports = MasterAccess;
+module.exports = MasterRoleAccess;

@@ -84,6 +84,31 @@ app.use('/user', userRouter);
 //---------------------------------------------------END OF ROUTE SETTINGS---------------------------------------------------
 /*---------------------------------------------------END OF APPLICATION SETTINGS---------------------------------------------------*/
 
+/*---------------------------------------------------INITIALIZE ACCESS---------------------------------------------------*/
+
+const CONFIG = require('./services/config');
+const cryptoRandomString = require('crypto-random-string');
+const MasterAccess = require('./models/masterAccess.model');
+
+CONFIG.accessList.forEach(element => {
+
+    MasterAccess.findOne({ AccessName: element })
+        .then((doc) => {
+            if (!doc) {
+                const newAccess = new MasterAccess({
+                    AccessId: cryptoRandomString({ length: 30 }),
+                    AccessName: element,
+                    isDelete: false
+                });
+
+                newAccess.save();
+            }
+        })
+        .catch(err => console.log(err));
+});
+
+/*---------------------------------------------------END OF INITIALIZE ACCESS---------------------------------------------------*/
+
 /*---------------------------------------------------APPLICATION START---------------------------------------------------*/
 
 app.listen(port, () => {
