@@ -15,7 +15,7 @@ import { RESTAPIDOMAIN } from '../config'
 
 function Home() {
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
+    let isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
 
     const transitions = useTransition(null, null, {
         from: { opacity: 0 },

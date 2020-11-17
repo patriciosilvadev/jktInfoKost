@@ -56,11 +56,11 @@ const useStyles = makeStyles({
 });
 
 const Navbar = () => {
-    const user = useSelector(state => state.userDataReducer.user);
-    const isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
-    const isPemilik = useSelector(state => state.userDataReducer.isPemilik);
-    const dispatch = useDispatch()
     const classes = useStyles();
+    const dispatch = useDispatch()
+    let user = useSelector(state => state.userDataReducer.user);
+    let isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
+    let isPemilik = useSelector(state => state.userDataReducer.isPemilik);
 
     const [state, setState] = React.useState({
         top: false,

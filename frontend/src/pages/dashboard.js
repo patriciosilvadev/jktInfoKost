@@ -85,9 +85,10 @@ function Dashboard(props) {
     const theme = useTheme();
     const classes = useStyles();
     const dispatch = useDispatch()
-    const user = useSelector(state => state.userDataReducer.user);
-    const isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    let user = useSelector(state => state.userDataReducer.user);
+    let isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
+    let access;
 
     const transitions = useTransition(null, null, {
         from: { opacity: 0 },
