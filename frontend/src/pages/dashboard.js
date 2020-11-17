@@ -10,11 +10,9 @@ import { trackPromise } from 'react-promise-tracker'
 import { RESTAPIDOMAIN } from '../config'
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -25,12 +23,22 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Avatar from 'react-avatar';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Badge from '@material-ui/core/Badge';
+import LandscapeIcon from '@material-ui/icons/Landscape';
+import HouseIcon from '@material-ui/icons/House';
+import PhoneIcon from '@material-ui/icons/Phone';
+import PolicyIcon from '@material-ui/icons/Policy';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+    },
+    grow: {
+        flexGrow: 1,
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -50,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
-    // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
@@ -59,9 +66,29 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    },
+    sectionMobile: {
+        display: 'flex',
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+    },
 }));
 
 function Dashboard(props) {
+    const { window } = props;
+    const theme = useTheme();
+    const classes = useStyles();
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.userDataReducer.user);
+    const isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+
     const transitions = useTransition(null, null, {
         from: { opacity: 0 },
         enter: { opacity: 1 },
@@ -69,10 +96,39 @@ function Dashboard(props) {
         config: { duration: 1000 }
     })
 
-    const { window } = props;
-    const classes = useStyles();
-    const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    useEffect(() => {
+        let source = axios.CancelToken.source()
+        if (isLoggedIn === false) {
+            trackPromise(
+                axios.get(RESTAPIDOMAIN + '/user/', {
+                    cancelToken: source.token
+                })
+                    .then(response => {
+                        if (response.data.authUser !== null) {
+                            const user = {
+                                displayName: response.data.authUser.displayName
+                            };
+                            dispatch(authenticateUser({ user }));
+                        }
+                        else {
+                            dispatch(unauthenticateUser());
+                        }
+                    })
+                    .catch(error => {
+                        if (axios.isCancel(error)) {
+                            console.log('Request canceled', error.message);
+                        } else {
+                            console.log(error);
+                        }
+                    }));
+            return () => {
+                //when the component unmounts
+                console.log("component unmounted");
+                // cancel the request (the message parameter is optional)
+                source.cancel('Operation canceled by the user.');
+            }
+        }
+    });
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -81,21 +137,31 @@ function Dashboard(props) {
     const drawer = (
         <div>
             <div className={classes.toolbar} />
-            <Divider />
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                {['Dashboard', 'Sewaan', 'Tanah', 'Kontak', 'Tagihan'].map((text, index) => (
                     <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                        <ListItemIcon>
+                            {(() => {
+                                switch (index) {
+                                    case 0: return <HouseIcon />;
+                                    case 1: return <LandscapeIcon />;
+                                    case 2: return <PhoneIcon />;
+                                    case 3: return <PolicyIcon />;
+                                    default: return <LandscapeIcon />;
+                                }
+                            })()}
+                        </ListItemIcon>
+                        <ListItemText>
+                            {(() => {
+                                switch (index) {
+                                    case 0: return <p >{text}</p>;
+                                    case 1: return <p >{text}</p>;
+                                    case 2: return <p >{text}</p>;
+                                    case 3: return <p >{text}</p>;
+                                    default: return <p >{text}</p>;
+                                }
+                            })()}
+                        </ListItemText>
                     </ListItem>
                 ))}
             </List>
@@ -109,22 +175,56 @@ function Dashboard(props) {
             <Fragment>
                 <div className={classes.root}>
                     <CssBaseline />
-                    <AppBar style={{ backgroundColor: '#38B6FF' }} position="fixed" className={classes.appBar}>
-                        <Toolbar>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                edge="start"
-                                onClick={handleDrawerToggle}
-                                className={classes.menuButton}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Typography variant="h6" noWrap>
-                                Responsive drawer
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
+                    <div className={classes.grow}>
+                        <AppBar style={{ backgroundColor: '#38B6FF' }} position="fixed" className={classes.appBar}>
+                            <Toolbar>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    edge="start"
+                                    onClick={handleDrawerToggle}
+                                    className={classes.menuButton}
+                                >
+                                    <MenuIcon />
+                                </IconButton>
+                                <Typography variant="h6" noWrap>
+                                    Hi, {user.displayName} !
+                                </Typography>
+                                <div className={classes.grow} />
+                                <div className={classes.sectionDesktop}>
+                                    <IconButton aria-label="show 4 new mails" color="inherit">
+                                        <Badge badgeContent={4} color="secondary">
+                                            <MailIcon />
+                                        </Badge>
+                                    </IconButton>
+                                    <IconButton aria-label="show 17 new notifications" color="inherit">
+                                        <Badge badgeContent={17} color="secondary">
+                                            <NotificationsIcon />
+                                        </Badge>
+                                    </IconButton>
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-controls="primary-search-account-menu"
+                                        aria-haspopup="true"
+                                        color="inherit"
+                                    >
+                                        <Avatar size={40} round={true} name={user.displayName} />
+                                    </IconButton>
+                                </div>
+                                <div className={classes.sectionMobile}>
+                                    <IconButton
+                                        aria-label="show more"
+                                        aria-controls="primary-search-account-menu-mobile"
+                                        aria-haspopup="true"
+                                        color="inherit"
+                                    >
+                                        <MoreIcon />
+                                    </IconButton>
+                                </div>
+                            </Toolbar>
+                        </AppBar>
+                    </div>
                     <nav className={classes.drawer} aria-label="mailbox folders">
                         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                         <Hidden smUp implementation="css">
