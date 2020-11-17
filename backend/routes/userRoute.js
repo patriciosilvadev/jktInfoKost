@@ -16,7 +16,8 @@ router.get('/', (req, res) => {
             MasterUser.findById(req.user.id)
                 .then((user) => {
                     const authUser = {
-                        displayName: user.displayName
+                        displayName: user.displayName,
+                        role: user.RoleId
                     }
                     res.json({ message: 'ok', authUser: authUser });
                 })

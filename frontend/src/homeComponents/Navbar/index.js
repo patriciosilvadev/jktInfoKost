@@ -56,8 +56,8 @@ const useStyles = makeStyles({
 });
 
 const Navbar = () => {
-    const classes = useStyles();
     const dispatch = useDispatch()
+    const classes = useStyles();
     let user = useSelector(state => state.userDataReducer.user);
     let isLoggedIn = useSelector(state => state.userDataReducer.isLoggedIn);
     let isPemilik = useSelector(state => state.userDataReducer.isPemilik);

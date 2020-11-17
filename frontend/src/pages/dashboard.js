@@ -106,10 +106,9 @@ function Dashboard(props) {
                 })
                     .then(response => {
                         if (response.data.authUser !== null) {
-                            const user = {
-                                displayName: response.data.authUser.displayName
-                            };
+                            const user = response.data.authUser;
                             dispatch(authenticateUser({ user }));
+                            console.log(user);
                         }
                         else {
                             dispatch(unauthenticateUser());
