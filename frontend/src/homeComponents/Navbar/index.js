@@ -141,7 +141,7 @@ const Navbar = () => {
             else {
                 return (
                     <NavBtnMobile>
-                        <NavBtnLinkMobileOutlined onClick={() => handleLogout()}><SpanMasuk>Daftar sebagai pemilik kost</SpanMasuk></NavBtnLinkMobileOutlined>
+                        <NavBtnLinkMobileOutlined onClick={() => handleLogout()}><SpanMasuk>Daftar sebagai pemilik</SpanMasuk></NavBtnLinkMobileOutlined>
                         <NavBtnLinkMobile to="/dashboard">Dashboard</NavBtnLinkMobile>
                         <NavBtnLinkMobile onClick={() => handleLogout()}>Keluar</NavBtnLinkMobile>
                     </NavBtnMobile>
@@ -172,7 +172,7 @@ const Navbar = () => {
             else {
                 return (
                     <NavBtn>
-                        <NavBtnLinkMasuk onClick={() => handleLogout()}><SpanMasuk>Daftar sebagai pemilik kost</SpanMasuk></NavBtnLinkMasuk>
+                        <NavBtnLinkMasuk onClick={() => handleLogout()}><SpanMasuk>Daftar sebagai pemilik</SpanMasuk></NavBtnLinkMasuk>
                         <NavBtnLinkDaftar to="/dashboard">Dashboard</NavBtnLinkDaftar>
                         <NavBtnLinkDaftar onClick={() => handleLogout()}>Keluar</NavBtnLinkDaftar>
                     </NavBtn>
